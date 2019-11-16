@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<style>
+	.asteriskField{
+    display: none !important;
+}
+.form-text{
+	display: none !important;
+}
+
+body{
+	background-color: #073269FF;
+}
+</style>
+<div class="row justify-content-center" style="margin-top: 5rem;">
+	<div class="media col-lg-12 justify-content-center">
+	    <a href="#">
+	        <img class="align-self-center rounded-circle" style="width:85px; height:85px;" alt="" src="{% static 'img/admin.jpg' %}">
+	    </a>
+    </div>
+	<div class="card mt-3 col-lg-5 px-0">
+		<div class="card-body ">
+		<form method="post" novalidate>
+			{% csrf_token %}
+			{{ form|crispy }}
+			<div class="text-center">
+			<button type="submit" class="btn btn-success">Let's do this!</button></div>
+		</form>
+
+	</div>
+	<div class="card-footer text-dark text-center">
+		Already signed up ? <a href="{% url 'login' %}">Login Here</a>
+	</div>
+	</div>
+</div>
+{% endblock %}

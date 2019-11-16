@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+<style>
+	.asteriskField{
+    display: none !important;
+}body{
+	background-color: #073269FF;
+}
+</style>
+<div class="row justify-content-center" style="margin-top: 5rem;">
+	<div class="media col-lg-12 justify-content-center">
+	    <a href="#">
+	        <img class="align-self-center rounded-circle" style="width:85px; height:85px;" alt="" src="{% static 'img/admin.jpg' %}">
+	    </a>
+    </div>
+    <div class="col-lg-4">
+	<div class="card mt-3 px-0">
+		<div class="card-header">
+            <h4 class="text-center">Login with your details</h4>
+          </div>
+		<div class="card-body">
+		<form method="post" novalidate>
+
+			{% csrf_token %}
+			{{ form|crispy }}
+			<button type="submit" class="btn btn-success btn-block">Login</button>
+		</form>
+
+	</div>
+	<div class="card-footer text-center text-muted">
+		New to our site ? <a href="{% url 'signup' %}">Signup</a>
+	</div>
+
+
+	</div>
+	<div class="text-center py-2">
+                <small>
+                    <a href="{% url 'password_reset' %}" class="text-light">Forgot your password?</a>
+                </small>
+            </div>
+    </div>
+	
+</div>
+{% endblock %}

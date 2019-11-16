@@ -1,0 +1,73 @@
+{% extends 'students/course/list.html' %}
+
+{% load static %}
+
+{% block title %}
+Classroom | {{ object.title }}
+{% endblock %}
+<style type="text/css">
+	.right-panel{
+		background-color: #343a40 !important;
+	}
+</style>
+
+
+
+{% block cool %}{% endblock cool %}
+
+{% block headi %}
+<div class="breadcrumbs bg-dark text-white">
+    <div class="col-sm-12 text-center">
+        <div class="page-header bg-dark">
+            <div class="page-title">
+                <h4 class="mt-4">{{ object.title }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock headi %}
+
+
+{% block main %}
+<div style="width: 100%; overflow-x: hidden;">
+<div class="row px-2 justify-content-center">
+	{% for content in contacts %}
+
+	{% with item=content.item %}
+	<div class="col-lg-10">
+		<div class="card px-0" style="height: 80vh;">
+			{{ item.render }}
+		</div>
+	</div>
+	{% endwith %}
+
+	{% endfor %}
+	{% if code %}
+	<div class="col-lg-7 mt-5 text-center alert alert-danger text-bold" style="font-weight: bolder !important">
+	{{ code }}</div>{% endif %}
+</div>
+{% if contacts %}
+<div class="pagination">
+	<span class="step-links">
+		{% if contacts.has_previous %}
+		<a class="text-dark" href="?page={{ contacts.previous_page_number }}">first</a>
+		{% endif %}
+		<span class="current">
+			Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+		</span>
+		{% if contacts.has_next %}
+		<a class="btn btn-primary rounded-0 text-dark text-right" href="?page={{ contacts.next_page_number }}">next</a>
+		{% endif %}
+	</span>
+</div>
+{% else %}
+<div class="row px-2 justify-content-center">
+	<div class="alert alert-danger text-bold" style="font-weight: bolder;margin-top: 5rem;">
+	No contents available  yet
+</div>
+</div>
+{% endif %}
+</div>
+{% endblock main %}
+
+

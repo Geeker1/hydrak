@@ -1,0 +1,195 @@
+{% extends 'index.html' %}
+{% load course %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}
+Module{{ module.order|add:1 }}: {{ module.title }}
+{% endblock %}
+
+
+
+{% with course=module.course %}
+{% block sideman %}
+
+<style>
+.navbar .navbar-nav li.menu-item-has-children a:before {
+    content: "" !important;
+}
+</style>
+<aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="./"><h4>TetraHydra</h4></a>
+                <a class="navbar-brand hidden" href="./"><img src="{% static 'img/logo2.png' %}" alt="Logo"></a>
+            </div>
+
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav" id="modules">
+                    <li>
+                        <a href="index.html"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
+                    </li>
+                    <h3 class="menu-title">Course Modules</h3><!-- /.menu-title -->
+                    {% for m in module.course.modules.all %}
+                    <li data-id="{{ m.id }}" {% if m == module %}class="menu-item-has-children dropdown selected active"{% endif %}>
+                        <a href="{% url 'module_content_list' m.id %}"> <i class="menu-icon fa fa-table"></i>Module <span class="order">{{ m.order|add:1 }}</span></a>
+                    </li>
+                    {% empty %}
+                    <li>
+                        <a href="#"> <i class="menu-icon fa fa-dashboard"></i>No Modules yet.</a>
+                    </li>
+                    {% endfor %}
+                    <p class="menu-title"><a class="btn btn-block btn-primary" href="{% url 'course_module_update' module.course.id %}"> Edit Modules</a></p><!-- /.menu-title -->
+                    
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+</aside>
+
+
+
+
+
+
+{% endblock sideman %}
+{% block headi %}
+
+<div class="breadcrumbs">
+    <div class="col-lg-12">
+        <div class="page-header row justify-content-center">
+            <div class="page-title">
+                <h1 class="text-center">{{ module.course.title }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock headi %}
+
+{% block main %}
+<div class="row mt-3 justify-content-center">
+	
+	<div class="col-lg-4" id="module-contents">
+		<h3 class="text-center text-success">Module {{ module.order|add:1 }}: {{ module.title }}</h3>
+		<h4 class="mt-4 text-center text-primary"> Module Contents:</h4>
+			{% for content in module.contents.all %}
+			<div class="card mt-3" data-id="{{ content.id }}">
+			{% with item=content.item %}
+			
+			
+			<div class="card-body text-center">
+				<p class="text-center">{{ item }}({{ item|model_name }})</p>
+				<a class="btn btn-primary d-inline rounded" href="{% url 'module_content_update' module.id item|model_name item.id %}">Edit Content</a>
+				<form class="d-inline" action="{% url 'module_content_delete' item.id %}" method="post">
+				<input class="btn btn-danger rounded" type="submit" value="Delete">
+					{% csrf_token %}
+				</form>
+			</div>{% endwith %}
+		</div>
+			
+			{% empty %}
+			<p class="text-center">This module has no contents yet</p>
+			{% endfor %}
+		
+
+		<hr>
+		<h4 class="text-danger text-center">Add new content:</h4>
+
+		<style>
+
+			.enclose .card{
+				display: inline-block;
+				margin-right: 0.5rem;margin-left: 0.5rem;
+
+
+			}
+		</style>
+		<div class="enclose text-center mt-2">
+	<div class="card">
+        <div class="card-body">
+                <a href="{% url 'module_content_create' module.id 'text' %}" class="text-center">Text</a>
+        </div>
+	</div>
+	<div class="card">
+        <div class="card-body">
+                <a href="{% url 'module_content_create' module.id 'image' %}" class="text-center">Image</a>
+        </div>
+           
+	</div>
+	<div class="card">
+        <div class="card-body">
+                <a href="{% url 'module_content_create' module.id 'video' %}" class="text-center">Video</a>
+            
+        </div>
+	</div>
+	<div class="card">
+		<div class="card-body">
+                <a href="{% url 'module_content_create' module.id 'file' %}" class="text-center">File</a>
+        </div>
+	</div>
+</div>
+	
+</div>
+{% endblock main %}
+
+{% endwith %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#modules').sortable({
+		stop: function(event, ui){
+			modules_order = {};
+			$('#modules').children().each(function(){
+				//update the order field
+				$(this).find('.order').text($(this).index() +1);
+				//associate the module's id  with its order
+				modules_order[$(this).data('id')] = $(this).index();
+			});
+			$.ajax({
+				type: 'POST',
+				url: '{% url "module_order" %}',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(modules_order),
+			});
+		}
+	});
+
+
+
+	$('#module-contents').sortable({
+		stop: function(event, ui){
+			contents_order = {};
+			$('#module-contents').children().each(function(){
+				//associate the module's id with its order
+				contents_order[$(this).data('id')] = $(this).index();
+			});
+
+			$.ajax({
+				type: 'POST',
+				url: '{% url "content_order" %}',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(contents_order),
+			});
+		}
+	});
+
+	
+
+});
+
+</script>
+
+{% endblock %}
+
+
+{# This block of code defines a sortable element for the modules Html element
+ a function is specified for the stop event which is triggered every time the user finishes sorting an element, an empty modules_order dictionary is created of which thekeys are the module's id.
+ We iterate over the #module children elements  #}

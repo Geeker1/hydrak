@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block title %}Courses{% endblock title %}
+
+
+{% block main %}
+
+
+<div class="row px-2">
+	{% for course in object_list %}
+	<div class="col-lg-3">
+		<div class="card px-0">
+			<h4 class="card-header text-center">{{ course.title }}</h4>
+
+				<img style="max-height: 270px;object-fit: cover;object-position: center;" class="w-100" src="{% if course.image %} {{ course.image.url }} {% else %} {% static 'img/header-bg.jpg' %}{% endif %}">
+				<div  class="card-body text-center">
+					<a class="btn btn-success mb-2 rounded" href="{% url 'course_edit' course.id %}">Edit Course</a>
+					<a class="btn btn-danger mb-2 rounded" href="{% url 'course_delete' course.id %}">Delete</a>
+					<a class="btn btn-primary mb-2 rounded" href="{% url 'course_module_update' course.id %}">
+					Edit Modules</a>
+					{% if course.modules.count > 0 %}
+					<a class="btn btn-secondary mb-2 rounded" href="{% url 'module_content_list' course.modules.first.id %}">
+					Manage Contents</a>
+					{% endif %}<!--This allows users to access contents of first module of course if any-->
+				</div>
+		</div>
+	</div>
+	{% empty %}
+	<div class="content mt-3">
+		<div class="row justify-content-center">
+            <div class="col-sm-12 col-lg-4">
+                <div class="alert  alert-success alert-dismissible fade show text-center" role="alert">You have not created any courses yet...
+
+		<a class="btn btn-success mt-3" href="{% url 'course_create' %}">Create a Course</a>
+                </div>
+            </div></div>
+
+        </div>
+
+
+	{% endfor %}
+	<div class="container">
+	{% if is_paginated %}
+<div class="row pagination justify-content-center">
+					<span class="step-links">
+						{% if page_obj.has_previous %}
+						<a class="text-dark" href="?page={{ page_obj.previous_page_number }}">first</a>
+						{% endif %}
+
+						{% for i in paginator.page_range %}
+						{% if page_obj.number == i %}
+						<a class="active btn btn-success">{{ i }}</a>
+						{% else %}
+						<a href="?page={{ i }}">{{ i }}</a>
+						{% endif %}
+						{% endfor %}
+						{% if page_obj.has_next %}
+						<a href="?page={{ page_obj.next_page_number }}">next</a>
+						{% endif %}
+					</span>
+				</div>
+{% else %}
+<div class="row px-2 justify-content-center">
+	<div class="alert alert-danger text-bold" style="font-weight: bolder;margin-top: 5rem;">
+	No contents available  yet
+</div>
+</div>
+{% endif %}
+</div>
+</div>
+
+
+
+{% endblock main %}
+
+{% block headi %}
+    <div class="card">
+        <div class="card-body">
+        	<div class="text-right">
+            <a class="btn btn-success text-right" href="{% url 'course_create' %}">Create a Course</a>
+        </div>
+        </div>
+
+    </div>
+{% endblock headi %}
+
+

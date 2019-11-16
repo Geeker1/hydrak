@@ -1,0 +1,42 @@
+[
+{
+  "model": "courses.subject",
+  "pk": 1,
+  "fields": {
+    "title": "Digital Marketing",
+    "slug": "digital-marketing"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 3,
+  "fields": {
+    "title": "Python Crash Course",
+    "slug": "python-crash-course"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 4,
+  "fields": {
+    "title": "Intro to TypeScript",
+    "slug": "intro-typescript"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 5,
+  "fields": {
+    "title": "Laravel Bootcamp",
+    "slug": "laravel-bootcamp"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 6,
+  "fields": {
+    "title": "Jquery and Bootstrap Fundamentals",
+    "slug": "jquery-and-bootstrap-fundamentals"
+  }
+}
+]

@@ -1,0 +1,51 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}
+Update Profile
+{% endblock %}
+
+{% block sideman %}{% endblock sideman %}
+{% block cool %}{% endblock cool %}
+
+
+{% block main %}
+<div class="row justify-content-center" style="margin-top: 9rem;">
+	<div class="media col-lg-12 justify-content-center">
+	    <a href="#">
+	        <img class="align-self-center rounded-circle" style="width:85px; height:85px;" alt="" src="{% static 'img/admin.jpg' %}">
+	    </a>
+    </div>
+	<div class="col-lg-3 mt-3">
+		<div class="card">
+			<h4 class="card-header text-center">Update profile</h4>
+			<div class="card-body">
+				<form action="." enctype="multipart/form-data" method="post">
+					{{ form|crispy }}
+					{% csrf_token %}
+					<input class="btn btn-success btn-block rounded" type="submit" value="Update">
+				</form>
+			</div>
+		</div>
+
+		<div class="text-center py-2">
+          <a class="btn btn-danger btn-lg" href="{% url 'home' %}">
+          	Go Home
+          </a>
+        </div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block headi %}
+
+
+
+
+
+
+{% endblock headi %}

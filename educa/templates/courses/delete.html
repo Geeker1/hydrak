@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Delete Course{% endblock %}
+
+
+{% block main %}
+<div class="row mt-3 justify-content-center">
+	<div class="col-lg-4">
+		<div class="card">
+			<h4 class="card-header text-center">Delete Course</h4>
+			<div class="card-body">
+				<form class="text-center" action="." method="post">
+					{% csrf_token %}
+					<p>Are you sure you want to delete this course ?</p>
+					<input class="btn btn-danger btn-block" type="submit" value="Delete">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

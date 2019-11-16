@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}
+{% if object %}
+Edit Course "{{ object.title }}"
+{% else %}
+Create new Course
+{% endif %}
+{% endblock %}
+
+
+
+{% block main %}
+<div class="row mt-3 justify-content-center">
+	<div class="col-lg-4">
+		<div class="card">
+			<h4 class="card-header text-center">{% if object %}Edit Course{% else %}Create new Course{% endif %}</h4>
+			<div class="card-body">
+				<h3 class="text-center pt-1">{% if object %}{{ object.title }}{% else %}Course info{% endif %}</h3>
+				<form action="." enctype="multipart/form-data" method="post">
+					{{ form|crispy }}
+					{% csrf_token %}
+					<input class="btn btn-success btn-block rounded" type="submit" value="Submit Course">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block headi %}
+
+
+
+
+
+
+{% endblock headi %}

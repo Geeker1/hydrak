@@ -1,0 +1,125 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}
+{% if subject %}
+	{{ subject.title }}
+{% else %}
+	All courses
+{% endif %}
+{% endblock %}
+
+
+{% block front %}
+	<div class="home" style="height: 60vh !important;">
+		<div class="home_background_container prlx_parent h-100">
+			<div class="home_background prlx h-100"
+			style="filter: brightness(50%); background-image:url({% static 'img/kris1.jpg' %})"></div>
+		</div>
+		<div class="home_content text-center text-white">
+			<h5 class="text-uppercase text-bold mt-5" style="font-weight: bolder !important;">
+				{% if subject %}
+				{{ subject.title }} courses
+				{% else %}
+				Displaying All Courses
+				{% endif %}
+			</h5>
+
+		</div>
+	</div>
+{% endblock %}
+
+{% block category %}
+{% endblock category %}
+
+{% block courses %}
+
+<div class="popular page_section">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="section_title text-center">
+						<h2>
+							{% if subject %}
+				{{ subject.title }} courses
+				{% else %}
+				All Courses
+				{% endif %}
+						</h2>
+					</div>
+				</div>
+			</div>
+
+			<div class="row course_boxes">
+				<style type="text/css">
+					.btn-floating.halfway-fab {
+    position: absolute;
+    right: 0rem !important;
+    bottom: 0rem !important;
+}
+				</style>
+				{% for course in contacts %}
+				{% with subject=course.subject %}
+				<div class="col-lg-4 course_box">
+					<a href="{% url 'course_detail' course.slug %}">
+					<div class="card hoverable">
+						<img class="card-img-top" src="{% static 'img/course_1.jpg' %}" alt="https://unsplash.com/@kellybrito">
+
+						<div class="card-body text-center">
+
+							<div class="card-title"><a href="{% url 'course_detail' course.slug %}">{{ course.title }}</a></div>
+							<div class="card-text">{{ subject }}</div>
+							<div class="card-text mt-1">{{ course.total_modules }} modules</div>
+						</div>
+						<div class="price_box d-flex flex-row align-items-center">
+							<div class="course_author_image">
+								<img width="100%" height="100%" src="{% static 'img/ledum.jpg' %}" alt="https://unsplash.com/@mehdizadeh">
+							</div>
+							<div class="course_author_name">{{ course.owner }}</div>
+							<div class="course_price d-flex flex-column align-items-center justify-content-center"><span>$29</span></div>
+						</div>
+					</div>
+					</a>
+				</div>
+				{% endwith %}
+
+				{% empty %}
+				<div class="col-lg-12 text-center">
+				<h4 class="mt-4 text-dark">No courses available for this subject</h4>
+				</div>
+				{% endfor %}
+
+				<style type="text/css">
+					.step-links a{
+						color: black !important;
+					}
+				</style>
+				<div class="pagination">
+					{% if is_paginated %}
+					<span class="step-links">
+						{% if contacts.has_previous %}
+						<a class="text-dark" href="?page={{ contacts.previous_page_number }}">first</a>
+						{% endif %}
+						<span class="current">
+							Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+						</span>
+						{% if contacts.has_next %}
+						<a class="text-dark" href="?page={{ contacts.next_page_number }}">next</a>
+						{% endif %}
+					</span>{% endif %}
+				</div>
+
+				<!-- Popular Course Item -->
+
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+{% endblock courses %}
+
+{% block testis %}
+{% endblock %}

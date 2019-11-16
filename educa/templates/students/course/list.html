@@ -1,0 +1,154 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block title %}
+Course List
+{% endblock %}
+
+{% block sideman %}
+
+
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="{% url 'home' %}"><h4>TetraHydra</h4></a>
+                <a class="navbar-brand hidden" href="./"><img src="{% static 'img/logo2.png' %}" alt="Logo"></a>
+            </div>
+            <style type="text/css">
+            	.navbar-nav li.she{
+            		padding-top: 0.5rem !important;
+            		padding-bottom: 0.5rem !important;
+            	}
+            </style>
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="she">
+                        <a href="{% url 'student_course_list' %}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
+                    </li>
+
+                    <li class="she">
+                        <a href="{% url 'home' %}"><i class="menu-icon fa fa-book"></i>Course Catalog</a>
+                    </li>
+                    {% if course %}
+                    <li class="she">
+                        <a href="{% url 'home' %}"><i class="menu-icon fa fa-book"></i>Study Materials</a>
+                    </li>
+                    <li class="she menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>{{ object.title }}</a>
+                        <ul class="sub-menu children dropdown-menu" id="modules">
+                            {% for m in object.modules.all %}
+                            <li data-id="{{ m.id }}" {% if m == module %}class="active"{% endif %}><a href="{% url 'student_course_detail_module' object.id m.id %}">Module {{ m.order|add:1 }}<br>{{ m.title }}</a></li>
+                            {% empty %}
+                            <li><a href="#">No modules yet.</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <h3 class="menu-title">Settings</h3><!-- /.menu-title -->
+                    <li class="she menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cog"></i>Account</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="menu-icon fa fa-cog"></i><a href="{% url 'profile_update' user.id %}">Account Details</a></li>
+                            <li><i class="menu-icon fa fa-pencil"></i><a href="{% url 'password_change' %}">Change Password</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="she">
+                        <a href="{% url 'logout' %}"> <i class="menu-icon fa fa-sign-out"></i>Logout</a>
+                    </li>
+                    <li class="she">
+                        <a href="{% url 'home' %}"> <i class="menu-icon fa fa-home"></i>Home page</a>
+                    </li>
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside><!-- /#left-panel -->
+
+
+{% endblock sideman %}
+
+{% block cool %}{% endblock cool %}
+
+{% block headi %}
+<div class="breadcrumbs">
+    <style>
+    .threed {
+    text-shadow: 0 1px 0 #999999, 0 2px 0 #888888,
+             0 3px 0 #777777, 0 4px 0 #666666,
+             0 5px 0 #555555, 0 6px 0 #444444,
+             0 7px 0 #333333, 0 8px 7px rgba(0, 0, 0, 0.9),
+             0 9px 10px rgba(0, 0, 0, 0.2);
+         }
+    </style>
+
+    <div class="col-sm-12 text-center mt-3">
+
+        <div class="page-header">
+            <a id="menuToggle" class="menutoggle pull-left bg-dark"><i class="fa fa fa-tasks"></i></a>
+            <div class="page-title">
+                <h2 class="threed text-uppercase">My Courses</h2>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock headi %}
+
+{% block main %}
+<div style="width: 100%; overflow-x: hidden;">
+<div class="row px-2">
+	{% for course in object_list %}
+	<div class="col-lg-4">
+		<div class="card px-0">
+			<h4 class="card-header text-center">{{ course.title }}</h4>
+			
+				<img class="w-100" src="{% static 'img/header-bg.jpg' %}">
+				<div  class="card-body text-center">
+					<a class="btn btn-success btn-lg mb-2 rounded" href="{% url 'student_course_detail' course.id %}">Start Learning</a>
+				</div>
+		</div>
+	</div>
+	{% empty %}
+	<div class="content mt-3">
+		<div class="row justify-content-center">
+            <div class="col-sm-12 col-lg-5">
+                <div class="alert  alert-success alert-dismissible fade show text-center" role="alert">You are not enrolled in any courses yet...
+                    
+		<a class="btn btn-success mt-3" href="{% url 'course_list' %}">Browse Courses</a>
+                </div>
+            </div></div>
+
+        </div>
+
+	{% endfor %}
+    <div class="container">
+    {% if is_paginated %}
+<div class="row pagination justify-content-center">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a class="text-dark" href="?page={{ page_obj.previous_page_number }}">first</a>
+        {% endif %}
+
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        <a class="active btn btn-success">{{ i }}</a>
+        {% else %}
+        <a href="?page={{ i }}">{{ i }}</a>
+        {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <a class="btn btn-primary rounded-0 text-dark text-right" href="?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+</div>
+</div></div>
+
+{% endblock main %}

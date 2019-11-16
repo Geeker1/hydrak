@@ -1,0 +1,457 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block priorstyle %}{% endblock priorstyle %}
+{% block style %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/courses_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/courses_responsive.css' %}">
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <link rel="stylesheet" type="text/css" href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}">
+ <style type="text/css">
+ 	.main_nav_container{
+   -webkit-box-shadow: none !important;
+   background-color: inherit !important;
+   padding-right: 2rem !important;
+}
+	body{
+		background-color: #eee !important;
+	}
+ </style>
+
+{% endblock style %}
+{% block override %}{% endblock override %}
+
+{% block body %}
+
+
+<div class="super_container">
+
+
+	{% block header %}
+	<!-- Header -->
+
+	<header class="header d-flex flex-row">
+
+		<div class="header_content d-flex flex-row align-items-center border-0 mx-auto" style="background:transparent;">
+
+			<!-- Logo -->
+			<div class="logo_container">
+				<a href="{% url 'home' %}"><div class="logo">
+					<img src="{% static 'img/fole.png' %}" alt="">
+					<span style="font-size: 20px;">v-hub</span>
+				</div></a>
+			</div>
+
+			<!-- Main Navigation -->
+			<nav class="main_nav_container">
+				<div class="main_nav">
+					<ul class="main_nav_list d-inline">
+						<li class="main_nav_item"><a href="{% url 'home' %}">home</a></li>
+						<li class="main_nav_item dropdown">
+							<a href="{% url 'course_list' %}" id="mone">online courses</a>
+
+						</li>
+						<li class="main_nav_item dropdown">
+							<a class="dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown">catalog</a>
+							<div class="dropdown-menu p-0 tush rounded-0" aria-labelledby="dropdownMenuLink">
+								{% for s in subjects %}
+			                  <a class="dropdown-item" href="{% url 'course_list_subject' s.slug %}">{{ s.title }}</a>
+			                  {% endfor %}
+			                </div>
+						</li>
+
+						<li class="main_nav_item"><a href="#">about us</a></li>
+						<li class="main_nav_item"><a href="#">news</a></li>
+						<li class="main_nav_item"><a href="#">contact</a></li>
+						<li class="main_nav_item"><a style="font-size: 17px;" href="#">
+							<i class="fa fa-shopping-cart"></i>
+							{% with total_items=cart|length %}
+							{% if cart|length > 0 %}
+							<sup class="" style="color:rgb(115, 255, 0);">[{{ total_items }}]</sup>
+							{% else %}
+							<sup style="color:red;">[{{ total_items }}]</sup>{% endif %}{% endwith %}</a>
+						</li>
+
+					</ul>
+
+				</div>
+			</nav>
+		</div>
+
+		<!-- Hamburger -->
+		<div class="hamburger_container text-white">
+			<i class="fas fa-bars trans_200"></i>
+		</div>
+
+	</header>
+
+	<!-- Menu -->
+	<div class="menu_container menu_mm">
+
+		<!-- Menu Close Button -->
+		<div class="menu_close_container">
+			<div class="menu_close"></div>
+		</div>
+
+		<!-- Menu Items -->
+		<div class="menu_inner menu_mm">
+			<div class="menu menu_mm">
+				<ul class="menu_list menu_mm">
+					<li class="menu_item menu_mm"><a href="{% url 'home' %}">Home</a></li>
+					<li class="menu_item menu_mm"><a href="{% url 'course_list' %}">Courses</a></li>
+					<li class="menu_item menu_mm"><a href="#">About Us</a></li>
+					{% if request.user.is_authenticated %}
+					{% else %}
+					<li class="menu_item menu_mm"><a  class="pr-2" href="elements.html">Login</a>|<a class="pl-2" href="elements.html">Signup</a></li>
+					{% endif %}
+
+					<li class="menu_item menu_mm"><a href="news.html">News</a></li>
+					<li class="menu_item menu_mm"><a href="contact.html">Contact</a></li>
+				</ul>
+
+				<!-- Menu Social -->
+
+				<div class="menu_social_container menu_mm">
+					<ul class="menu_social menu_mm">
+						<li class="menu_social_item menu_mm"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+						<li class="menu_social_item menu_mm"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+						<li class="menu_social_item menu_mm"><a href="#"><i class="fab fa-instagram"></i></a></li>
+						<li class="menu_social_item menu_mm"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+						<li class="menu_social_item menu_mm"><a href="#"><i class="fab fa-twitter"></i></a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	{% endblock header %}
+
+	<!-- Home -->
+<style type="text/css">
+h6 a{
+	color: #fff !important;
+}
+	h6 a:hover{
+		color: #000 !important;
+	}
+
+</style>
+
+	{% block front %}
+
+	<div class="home" style="height: 100vh !important;">
+		<div class="home_background_container prlx_parent h-100">
+			<div class="home_background prlx h-100" style="filter: brightness(50%); background-image:url({% static 'img/kris1.jpg' %});"></div>
+		</div>
+		<div class="home_content text-center text-white mt-4">
+			{% if is_instructor %}
+
+			<h4 class="text-uppercase text-bold" style="font-weight: bolder !important;">Learn from Pros</h4>
+
+	        <p><h5>Derive something unique on each visit</h5></p>
+
+	        <p><h6>An Enterpreneurial community of newbies and pros,where we all come to derive knowledge from and put in practice</h6></p>
+
+			<a href="{% url 'manage_course_list' %}" class="waves-effect waves-light btn-success py-3 waves-ripple btn-lg mt-3" style="padding-right: 5rem;padding-left: 5rem;font-size: 1.2rem;font-weight: bolder;">Instructor Dashboard</a>
+
+			<a href="{% url 'student_course_list' %}" class="waves-effect waves-light waves-ripple py-3 btn-lg bg-primary mt-3" style="padding-right: 5rem;padding-left: 5rem;font-size: 1.2rem;font-weight: bolder;">Student Dashboard</a>
+
+			{% elif request.user.is_authenticated %}
+			<h4 class="text-uppercase text-bold" style="font-weight: bolder !important;">Learn from Pros</h4>
+
+	        <p><h5>Derive something unique on each visit</h5></p>
+
+	        <p><h6>An Enterpreneurial community of newbies and pros,where we all come to derive knowledge from and put in practice</h6></p>
+
+			<a href="{% url 'student_course_list' %}" class="waves-effect waves-light waves-ripple btn-large bg-primary mt-3 mb-3" style="padding-right: 5rem;padding-left: 5rem;font-size: 1.2rem;font-weight: bolder;">Dashboard</a>
+
+			{% else %}
+
+			<h4 class="text-uppercase text-bold" style="font-weight: bolder !important;">Learn from Pros</h4>
+
+	        <p><h5>Derive something unique on each visit</h5></p>
+
+	        <p><h6>An Enterpreneurial community of newbies and pros,where we all come to derive knowledge from and put in practice</h6></p>
+
+			<a href="{% url 'student_registration' %}" class="waves-effect waves-light waves-ripple btn-large mt-3 mb-3" style="padding-right: 5rem;padding-left: 5rem;font-size: 1.2rem;font-weight: bolder;">signup</a>
+			<a href="{% url 'login' %}" class="waves-effect waves-light waves-ripple btn-large bg-primary mt-3 mb-3" style="padding-right: 5rem;padding-left: 5rem;font-size: 1.2rem;font-weight: bolder;">login</a>
+
+			<h6 class="text-right text-white">Want to be an instructor? <a class="text-success" href="{% url 'signup' %}">SignUp</a></h6>
+			{% endif %}
+
+		</div>
+	</div>
+
+	{% endblock %}
+
+
+	{% block category %}
+	<div class="catalog_section pt-2">
+		<div class="container">
+			<div class="row">
+				{% for s in subjects %}
+
+				<div class="col-lg-3">
+					<a href="{% url 'course_list_subject' s.slug %}">
+						<div class="card hoverer">
+        <div class="card-image">
+          <img src="{% static 'img/slider_background.jpg' %}">
+          <span class="card-title text-center">{{ s.title }}</span>
+        </div>
+
+      </div>
+					</a>
+
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+	{% endblock category %}
+
+	{% block courses %}
+
+	<!-- Popular -->
+	<style type="text/css">
+		.threed {
+    text-shadow: 0 1px 0 #999999, 0 2px 0 #888888,
+             0 3px 0 #777777, 0 4px 0 #666666,
+             0 5px 0 #555555, 0 6px 0 #444444,
+             0 7px 0 #333333, 0 8px 7px rgba(0, 0, 0, 0.4),
+             0 9px 10px rgba(0, 0, 0, 0.2);
+}
+	</style>
+
+	<div class="popular page_section">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="section_title text-center">
+						<h2 class="threed">Trending Courses</h2>
+					</div>
+				</div>
+			</div>
+
+			<div class="row course_boxes">
+				<style type="text/css">
+					.btn-floating.halfway-fab {
+    position: absolute;
+    right: 0rem !important;
+    bottom: 0rem !important;
+}
+				</style>
+				<!-- Popular Course Item -->
+				{% for course in trending %}
+				<a href="{% url 'course_detail' course.slug %}">
+				<div class="col-lg-4 course_box">
+					<div class="card hoverable">
+						<img style="max-height: 260px;" class="card-img-top"
+						src="{% if course.image %}
+						{{ course.image.url }}
+						{% else %}{% static 'img/course_2.jpg' %}{% endif %}" alt="https://unsplash.com/@kellybrito">
+
+						<div class="card-body text-center">
+
+							<div class="card-title"><a href="courses.html">{{ course.title }}</a></div>
+							<div class="card-text">{{ course.subject }}</div>
+						</div>
+						<div class="price_box d-flex flex-row align-items-center">
+							<div class="course_author_image">
+								<img src="{% static 'img/ledum.jpg' %}" width="100%" height="100%" alt="Author's image">
+							</div>
+							<div class="course_author_name">{{ course.owner }}</div>
+							<div class="course_price d-flex flex-column align-items-center justify-content-center"><span style="font-size: 0.9rem;">$5000</span></div>
+						</div>
+					</div>
+				</div>
+				</a>
+				{% endfor %}
+
+
+
+
+
+			</div>
+		</div>
+	</div>
+
+	{% endblock courses %}
+
+
+	{% block testis %}
+
+	<div class="testimonials page_section">
+		<!-- <div class="testimonials_background" style="background-image:url(images/testimonials_background.jpg)"></div> -->
+		<div class="testimonials_background_container prlx_parent">
+			<div class="testimonials_background prlx"
+			style="filter: brightness(70%); background-image:url({% static 'img/hot.jpg' %})"></div>
+		</div>
+		<div class="container">
+
+			<div class="row">
+				<div class="col">
+					<div class="section_title text-center">
+						<h1>What we do</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-10 offset-lg-1">
+
+					<div class="testimonials_slider_container">
+						<div class="container">
+
+			</div>
+						<!-- Testimonials Slider -->
+						<div class="testimonials_slider">
+
+							<!-- Testimonials Item -->
+							<div class="owl-item">
+								<div class="testimonials_item text-center">
+									<div class="quote">“</div>
+									<p class="testimonials_text">Think of us like this, you need a skill set, you have a problem and need a solution to  your problem, thats where we come in, we show you how you could solve that problem by showing you the courses you could read and watch and practice till you gain that particular skill set.With this knowledge you can go out to the world knowing that you have something of advantage to offer.
+
+									This is a community where you learn, you interact with your teachers and develop yourself till you become a pro then you can decide to apply as an instructor and impact that knowledge unto others</p>
+									<div class="testimonial_user">
+										<div class="testimonial_image mx-auto">
+											<img src="{% static 'img/ledum.jpg'%}" alt="">
+										</div>
+
+										<div class="testimonial_title">Welcome Once Again !!</div>
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	{% endblock testis %}
+
+	{% block footer %}
+	<!-- Footer -->
+
+	<footer class="footer">
+		<div class="container">
+
+
+			<!-- Footer Content -->
+
+			<div class="footer_content">
+				<div class="row">
+
+					<!-- Footer Column - About -->
+
+
+					<!-- Footer Column - Menu -->
+
+					<div class="col-lg-4 footer_col text-center">
+						<div class="footer_column_title">Navigation Menu</div>
+						<div class="footer_column_content">
+							<ul>
+								<li class="footer_list_item"><a href="index.html">Home</a></li>
+								<li class="footer_list_item"><a href="#">Courses</a></li>
+								<li class="footer_list_item"><a href="#">News</a></li>
+								<li class="footer_list_item"><a href="news.html">About Us</a></li>
+								<li class="footer_list_item"><a href="contact.html">Contact Us</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Footer Column - Usefull Links -->
+
+					<div class="col-lg-4 footer_col text-center">
+						<div class="footer_column_title">Important Links</div>
+						<div class="footer_column_content">
+							<ul>
+								<li class="footer_list_item"><a href="#">Privacy Policy</a></li>
+								<li class="footer_list_item"><a href="#">FAQ</a></li>
+								<li class="footer_list_item"><a href="#">Community</a></li>
+								<li class="footer_list_item"><a href="#">Terms and Conditions</a></li>
+								<li class="footer_list_item"><a href="#">Meet our Instructors</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Footer Column - Contact -->
+
+					<div class="col-lg-4 footer_col text-center">
+						<div class="footer_column_title">Contact</div>
+						<div class="footer_column_content">
+							<ul>
+								<li class="footer_contact_item">
+									<div class="footer_contact_icon">
+										<img src="{% static 'img/placeholder.svg' %}" alt="https://www.flaticon.com/authors/lucy-g">
+									</div>
+									Blvd Libertad, 34 m05200 Arévalo
+								</li>
+								<li class="footer_contact_item">
+									<div class="footer_contact_icon">
+										<img src="{% static 'img/smartphone.svg' %}" alt="https://www.flaticon.com/authors/lucy-g">
+									</div>
+									0034 37483 2445 322
+								</li>
+								<li class="footer_contact_item">
+									<div class="footer_contact_icon">
+										<img src="{% static 'img/envelope.svg' %}" alt="https://www.flaticon.com/authors/lucy-g">
+									</div>hello@company.com
+								</li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- Footer Copyright -->
+
+			<div class="footer_bar d-flex flex-column flex-sm-row align-items-center">
+				<div class="footer_copyright">
+					<span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+				</div>
+				<div class="footer_social ml-sm-auto">
+					<ul class="menu_social mx-auto">
+						<li class="menu_social_item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
+						<li class="menu_social_item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+						<li class="menu_social_item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+						<li class="menu_social_item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+						<li class="menu_social_item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+					</ul>
+				</div>
+			</div>
+
+
+		</div>
+	</footer>
+	{% endblock footer %}
+
+</div>
+
+
+
+{% endblock body %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/materialize.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/courses_custom.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugins/greensock/animation.gsap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugins/greensock/ScrollToPlugin.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugins/easing/easing.js' %}"></script>
+{% endblock %}

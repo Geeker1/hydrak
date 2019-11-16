@@ -1,0 +1,117 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}
+{{ object.title }}
+{% endblock %}
+
+
+{% block front %}
+	<div class="home" style="height: 50vh !important;">
+		<div class="home_background_container prlx_parent h-100">
+			<div class="home_background prlx h-100"
+			style="filter: brightness(50%); background-image:url({% static 'img/kris1.jpg' %})"></div>
+		</div>
+		<div class="home_content text-center text-white">
+			<h4 class="text-uppercase text-bold" style="font-weight: bolder !important;margin-top: 5rem;">
+				{{ object.title }}
+			</h4>
+
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block category %}
+{% with subject=course.subject %}
+<div class="container codei">
+	<div class="row justify-content-center mt-5">
+		<div class="col-lg-7">
+			<img class="hoverable" width="100%" height="80%" src="{% static 'img/kris.jpg' %}">
+		</div>
+		<div class="col-lg-5">
+			<div class="card hoverable">
+
+        <div class="card-content text-center text-dark">
+          <span class="card-title">{{ object.title }}</span>
+          <h6 class="text-bold">{{ course.modules.count }} modules.</h6>
+          <p class="text-dark">{{ object.overview }}</p>
+          <hr>
+          <p class="text-dark text-bold"><h6 style="font-weight: bolder;">Prequisites:</h6>Knowledge of Python and Javascript</p>
+          <p class="text-dark text-right">${{ object.price }}</p>
+        </div>
+
+        <div class="card-action text-center text-white">
+        	{% if request.user.is_authenticated %}
+          <a class="waves-effect waves-light waves-ripple btn-large bg-dark mb-2" style="padding-right: 1.5rem;padding-left: 1.5rem;font-size:0.9rem;font-weight: bolder;">buy now</a>
+          	<form action="{% url 'cart:cart_add' course.id %}" method="post">
+				<p class="invisible mt-0 mb-0" style="width:1px;height:1px;">{{ cart_product_form.quantity }}</p>
+                <p class="mt-0 mb-0">{{ cart_product_form.update }}</p>
+				{% csrf_token %}
+				<input class="btn-large bg-danger mb-2" type="submit" value="Add to Cart">
+			</form>
+
+			<form action="{% url 'student_enroll_course' %}" method="post">
+				{{ enroll_form }}
+				{% csrf_token %}
+				<input class="btn-large bg-dark mb-2" type="submit" value="Enroll Now">
+			</form>
+
+			{% else %}
+				<a href="{% url 'student_registration' %}" class="waves-effect waves-light waves-ripple btn-large bg-danger mb-2" style="padding-right: 1.5rem;padding-left: 1.5rem;font-size: 0.9rem;font-weight: bolder;">register to enroll</a>
+			{% endif %}
+        </div>
+
+      </div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-7">
+
+			{% if modules %}<h5 class="text-center text-dark mb-3">"What you will learn in this course"</h5>{% else %}{% endif %}
+			<div class="elements_accordions">
+			{% for t in modules %}
+				<div class="accordion_container">
+					<div class="accordion d-flex flex-row align-items-center">{{ t.title }}</div>
+					<div class="accordion_panel">
+						<p class="text-dark">{{ t.description }}</p>
+					</div>
+				</div>
+			{% empty %}
+			<p class="text-dark text-center">No modules yet.</p>
+			{% endfor %}
+			</div>
+		</div>
+		<div class="col-lg-5">
+
+</div>
+
+</div>
+
+<div class="row">
+		<div class="col-lg-7">
+			<div class="card hoverable mb-3">
+        <div class="card-content text-center text-dark py-4">
+        	<img class="rounded" width="50" height="50" src="{% static 'img/kris.jpg' %}">
+          <span class="card-title mt-1">{{ course.owner }}</span>
+          <p class="text-dark">A lead engineer at facebook, he has devoted plenty of time to the design and implementation of react native apps and holds a degree at the microsoft hall of fame</p>
+        </div>
+
+
+
+      </div>
+		</div>
+	</div>
+
+
+</div>
+{% endwith %}
+{% endblock category %}
+
+{% block courses %}
+
+{% endblock courses %}
+
+{% block testis %}
+{% endblock %}
