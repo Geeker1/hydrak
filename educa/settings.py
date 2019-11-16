@@ -181,6 +181,8 @@ REST_FRAMEWORK = {
     ]
 }
 
+WHITENOISE_USE_FINDERS = True
+
 # import django_heroku
 # django_heroku.settings(locals())
 

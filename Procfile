@@ -1,1 +1,1 @@
-web: gunicorn python manage.py runserver --log-file -
+web: gunicorn educa.wsgi --log-file -
