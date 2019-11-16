@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'whitenoise.runserver_nostatic',
     'courses',
     'crispy_forms',
     'students',
@@ -157,7 +156,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #     os.path.join(BASE_DIR, 'static'),
 # ]
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # This is the cart session key used to store cart in user session
 CART_SESSION_ID = 'cart'
@@ -184,14 +183,14 @@ REST_FRAMEWORK = {
 
 WHITENOISE_USE_FINDERS = True
 
-
+# import django_heroku
+# django_heroku.settings(locals())
 
 import dj_database_url
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
-import django_heroku
-django_heroku.settings(locals())
+
 
 
 
