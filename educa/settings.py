@@ -156,7 +156,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #     os.path.join(BASE_DIR, 'static'),
 # ]
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # This is the cart session key used to store cart in user session
 CART_SESSION_ID = 'cart'
