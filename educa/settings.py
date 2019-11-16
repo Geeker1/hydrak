@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'whitenoise.runserver_nostatic',
     'courses',
     'crispy_forms',
     'students',
@@ -184,14 +183,14 @@ REST_FRAMEWORK = {
 
 WHITENOISE_USE_FINDERS = True
 
-# import django_heroku
-# django_heroku.settings(locals())
+
 
 import dj_database_url
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 
-
+import django_heroku
+django_heroku.settings(locals())
 
 
