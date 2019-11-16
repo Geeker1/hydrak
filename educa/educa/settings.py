@@ -26,7 +26,7 @@ SECRET_KEY = 'eh8hl7)&c@%a@544odl+v0yl_#%ceo=br-g2&%0cvjag0hpm2l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['hydrak.herokuapp.com', '127.0.0.1']
 
 INTERNAL_IPS = ['127.0.0.1']
 # Application definition
