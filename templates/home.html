@@ -448,8 +448,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 {% endblock body %}
 
 {% block javascript %}
+<script type="text/javascript" src="{% static 'plugins/scrollmagic/ScrollMagic.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/materialize.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/courses_custom.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugins/greensock/TweenMax.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'plugins/greensock/animation.gsap.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'plugins/greensock/ScrollToPlugin.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
